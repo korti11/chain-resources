@@ -160,8 +160,8 @@ publishing {
             name "GitHub Packages"
             url "https://maven.pkg.github.com/korti11"
             credentials {
-                username = env.GITHUB_USERNAME
-                password = env.GITHUB_TOKEN
+                username = env.GITHUB_CREDS_USR
+                password = env.GITHUB_CREDS_PSW
             }
         }
     }
