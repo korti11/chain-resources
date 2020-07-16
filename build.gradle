@@ -157,7 +157,7 @@ publishing {
     }
     repositories {
         maven {
-            name "GitHub Packages"
+            name "GitHubPackages"
             url "https://maven.pkg.github.com/korti11/chain-resources"
             credentials {
                 username = env.GITHUB_CREDS_USR
