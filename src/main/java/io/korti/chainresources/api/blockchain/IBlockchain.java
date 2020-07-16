@@ -16,9 +16,54 @@
 
 package io.korti.chainresources.api.blockchain;
 
+import java.util.Map;
+
 /**
  * The blockchain is used to store the mined blocks in a list as well as the unspent output transactions.
  */
 public interface IBlockchain {
 
+    /**
+     * Adds a new block to the chain.
+     * @param block Block to add.
+     */
+    void addBlock(IBlock block);
+
+    /**
+     * Adds a new unspent output transaction.
+     * @param utxo UTXO to add.
+     */
+    void addUTXO(ITransactionOutput utxo);
+
+    /**
+     * Remove a unspent output transaction.
+     * @param id ID of the UTXO.
+     */
+    void removeUTXO(String id);
+
+    /**
+     * Returns all UTXOs in a map where the UTXO ID is mapped to the UTXO.
+     * @implNote The returned map should be immutable. Use {@link java.util.Collections#unmodifiableMap(Map)}.
+     * @return A map with all UTXOs with the ID as the key.
+     */
+    Map<String, ITransactionOutput> getUTXOs();
+
+    /**
+     * Returns the last block of the chain.
+     * @return Last block of the chain.
+     */
+    IBlock lastBlock();
+
+    /**
+     * Validates the whole chain.
+     * @implNote The result should be cached to only validate if a new block got added.
+     * @return True if the chain is valid otherwise false.
+     */
+    boolean validate();
+
+    /**
+     * Checks if the chain got validated and is valid.
+     * @return True if chain is valid otherwise false.
+     */
+    boolean isValid();
 }
