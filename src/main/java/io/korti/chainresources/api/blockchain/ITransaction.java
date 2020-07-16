@@ -16,8 +16,34 @@
 
 package io.korti.chainresources.api.blockchain;
 
+import java.security.PrivateKey;
+
 /**
  * The transaction interface is used to transfer coins from one {@link IWallet} to another one.
  */
 public interface ITransaction {
+
+    /**
+     * Returns the transaction id.
+     * @return ID of the transaction
+     */
+    String getId();
+
+    /**
+     * Process the transaction. Transfer the coins from one wallet to another one.
+     * @return True if the transaction was successfully processed otherwise false
+     */
+    boolean processTransaction();
+
+    /**
+     * Sign the transaction with the private key of the sender wallet.
+     * @param key Private key of the sender wallet
+     */
+    void generateSignature(PrivateKey key);
+
+    /**
+     * Validates that the transaction got signed by the sender.
+     * @return True if the transaction is signed by the sender otherwise false
+     */
+    boolean verifySignature();
 }
