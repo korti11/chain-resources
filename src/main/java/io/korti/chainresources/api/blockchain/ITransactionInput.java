@@ -20,4 +20,22 @@ package io.korti.chainresources.api.blockchain;
  * The transaction input is used to calculate the funds for a transaction.
  */
 public interface ITransactionInput {
+
+    /**
+     * Returns the ID of the transaction output.
+     * @return Transaction output ID
+     */
+    String getTransactionOutputID();
+
+    /**
+     * Get the unspent output transaction.
+     * @return UTXO
+     */
+    ITransactionOutput getUTXO();
+
+    /**
+     * Setts the unspent output transaction.
+     * @param utxo UTXO
+     */
+    void setUTXO(ITransactionOutput utxo);
 }

@@ -16,6 +16,8 @@
 
 package io.korti.chainresources.api.blockchain;
 
+import java.security.PublicKey;
+
 /**
  * The transaction output is used to determine who gets what of the transaction.
  *
@@ -25,4 +27,23 @@ package io.korti.chainresources.api.blockchain;
  * Wallet A to Wallet B over 5 coins and a second one over 1 coin for the back transfer in Wallet A.
  */
 public interface ITransactionOutput {
+
+    /**
+     * Returns the ID of the unspent output transaction.
+     * @return ID
+     */
+    String getID();
+
+    /**
+     * Returns the coin value of this unspent output transaction.
+     * @return Coin value
+     */
+    float getValue();
+
+    /**
+     * Checks if this UTXO is part of the wallet with the public key.
+     * @param key Public key of the wallet to check
+     * @return True if this UTXO is part of the wallet otherwise false
+     */
+    boolean isMine(PublicKey key);
 }
