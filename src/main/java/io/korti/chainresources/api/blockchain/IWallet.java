@@ -16,8 +16,38 @@
 
 package io.korti.chainresources.api.blockchain;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 /**
  * The wallet is used to store the UTXOs for this wallet as well as the public and private key.
  */
 public interface IWallet {
+
+    /**
+     * Returns the private key of the wallet.
+     * @return Private key
+     */
+    PrivateKey getPrivateKey();
+
+    /**
+     * Returns the public key of the wallet.
+     * @return Public key
+     */
+    PublicKey getPublicKey();
+
+    /**
+     * Returns the balance of the wallet.
+     * @return Balance
+     */
+    float getBalance();
+
+    /**
+     * Creates a new transaction.
+     * @param receiver Public key of the receiver wallet.
+     * @param value The value that gets transferred from this wallet to the receiver wallet.
+     * @return Newly created transaction.
+     */
+    ITransaction sendFunds(PublicKey receiver, float value);
+
 }
