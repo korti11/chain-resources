@@ -23,6 +23,12 @@ pipeline {
             }
         }
 
+        stage('Tests') {
+            steps {
+                sh './gradlew check'
+            }
+        }
+
         stage('Maven publish') {
             steps {
                 sh './gradlew publish'
@@ -33,6 +39,7 @@ pipeline {
     post {
         always {
             archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+            junit 'build/reports/**/*.xml'
         }
     }
 
