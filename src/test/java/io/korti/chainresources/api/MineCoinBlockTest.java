@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -78,6 +77,63 @@ public class MineCoinBlockTest {
         assertTrue(result.get(mockedTransactionOne), "The first added transaction was processable.");
         assertFalse(result.get(mockedTransactionTwo), "The second added transaction was not processable.");
         assertTrue(result.get(mockedTransactionThree), "The third added transaction was processable.");
+    }
+
+    @Test
+    @DisplayName("Hash value gets set on block creation.")
+    public void hashGetsSetOnBlockCreation() {
+        final IBlock block = new MineCoinBlock("0");
+
+        assertEquals(block.calculateHash(), block.getHash(), "The hash variable is not set on block creation.");
+    }
+
+    @Test
+    @DisplayName("Hash value gets changed on mining a block.")
+    public void hashGetsChangedOnMiningABlock() {
+        final IBlock block = new MineCoinBlock("");
+        final String startHash = block.getHash();
+
+        block.mineBlock(32);
+
+        assertNotEquals(startHash, block.getHash(), "After a mining operation the hash should be different.");
+    }
+
+    @Test
+    @DisplayName("Hash value should not get changed after a block got successful mined.")
+    public void hashShouldNotChangeAfterBlockGotMined() {
+        final IBlock block = new MineCoinBlock("");
+
+        while(!block.mineBlock(2));
+
+        final String correctHash = block.getHash();
+
+        block.mineBlock(2);
+
+        assertEquals(correctHash, block.getHash(), "The hash should not change if a block already got successful mined.");
+    }
+
+    @Test
+    @DisplayName("Hash should change after adding transaction.")
+    public void hashShouldChangeAfterAddingTransaction() {
+        final IBlock block = new MineCoinBlock("");
+        final ITransaction transaction = mock(ITransaction.class);
+        final String startHash = block.getHash();
+
+        when(transaction.processTransaction()).thenReturn(true);
+
+        block.addTransaction(transaction);
+
+        assertNotEquals(startHash, block.calculateHash(), "The hash should be not equal after adding a new transaction.");
+    }
+
+    @Test
+    @DisplayName("Block is mined.")
+    public void blockIsMined() {
+        final IBlock block = new MineCoinBlock("");
+
+        while(!block.mineBlock(2));
+
+        assertTrue(block.isMined(2), "Block should be mined.");
     }
 
 }
