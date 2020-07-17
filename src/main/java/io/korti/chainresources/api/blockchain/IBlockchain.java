@@ -26,8 +26,9 @@ public interface IBlockchain {
     /**
      * Adds a new block to the chain.
      * @param block Block to add.
+     * @return True if the block got successfully added otherwise false.
      */
-    void addBlock(IBlock block);
+    boolean addBlock(IBlock block);
 
     /**
      * Adds a new unspent output transaction.
@@ -40,6 +41,18 @@ public interface IBlockchain {
      * @param id ID of the UTXO.
      */
     void removeUTXO(String id);
+
+    /**
+     * Returns the current difficulty of this blockchain.
+     * @return Difficulty
+     */
+    int getDifficulty();
+
+    /**
+     * Returns the min value for a transaction.
+     * @return Min value for a transaction
+     */
+    float getMinTransactionValue();
 
     /**
      * Returns all UTXOs in a map where the UTXO ID is mapped to the UTXO.
