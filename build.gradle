@@ -12,7 +12,14 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "$mod_majormod.$mod_majorapi.$mod_minor.$mod_patch"
+version = "$mod_majormod.$mod_minor.$mod_patch"
+
+def env = System.getenv()
+if(env.BUILD_NUMBER) {
+    version = version + "+${env.BUILD_NUMBER}"
+} else {
+    version = version + "+0"
+}
 
 if(release_type != "") {
     version = "$version-$release_type"
@@ -101,11 +108,6 @@ processResources {
     from(sourceSets.main.resources) {
         exclude "META-INF/mods.toml"
     }
-}
-
-def env = System.getenv()
-if(env.BUILD_NUMBER) {
-    version = version + "-b${env.BUILD_NUMBER}"
 }
 
 jar {
