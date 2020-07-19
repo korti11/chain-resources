@@ -19,9 +19,11 @@ package io.korti.chainresources.api.impl;
 import io.korti.chainresources.api.blockchain.ITransaction;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public final class Util {
@@ -73,6 +75,10 @@ public final class Util {
         }
 
         return (treeLayer.size() == 1) ? treeLayer.get(0) : "";
+    }
+
+    public static String keyToString(Key key) {
+        return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
 }
