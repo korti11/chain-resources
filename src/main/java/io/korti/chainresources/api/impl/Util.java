@@ -19,9 +19,7 @@ package io.korti.chainresources.api.impl;
 import io.korti.chainresources.api.blockchain.ITransaction;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -81,4 +79,33 @@ public final class Util {
         return Base64.getEncoder().encodeToString(key.getEncoded());
     }
 
+    public static byte[] applySHA256RSASig(PrivateKey key, String input) {
+        return applySignature(key, input, "SHA256withRSA");
+    }
+
+    public static byte[] applySignature(PrivateKey key, String input, String algorithm) {
+        try {
+            Signature sig = Signature.getInstance(algorithm);
+            sig.initSign(key);
+            sig.update(input.getBytes());
+            return sig.sign();
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean verifySHA256RSASig(PublicKey key, String input, byte[] signature) {
+        return verifySignature(key, input, signature, "SHA256withRSA");
+    }
+
+    public static boolean verifySignature(PublicKey key, String input, byte[] signature, String algorithm) {
+        try {
+            Signature sig = Signature.getInstance(algorithm);
+            sig.initVerify(key);
+            sig.update(input.getBytes());
+            return sig.verify(signature);
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
